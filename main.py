@@ -11,7 +11,7 @@ class Args(Hypers):
     # Model and dataset configuration
     model_name: str = "google/gemma-2-2b"
     dataset_name: str = "tatsu-lab/alpaca"
-    split_marker: str = "### Response:\\n"
+    split_marker: str = "### Response:\n"
     # Placeholders for training objects
     model: AutoModelForCausalLM = TBD()
     tokenizer: AutoTokenizer = TBD()
@@ -23,7 +23,7 @@ class Args(Hypers):
     
     # Hyperparameters
     learning_rate: float = 1e-4
-    num_epochs: int = 1
+    num_epochs: int = 5
     batch_size: int = 1
     gradient_accumulation_steps: int = 1
     weight_decay: float = 0.01
@@ -31,17 +31,16 @@ class Args(Hypers):
     max_seq_length: int = 1024
     max_length: int = 1024
     output_dir: str = "./sft_output"
-    max_steps: int = 10
+    max_steps: int = 50
     logging_steps: int = 10
-    save_steps: int = 5
     eval_steps: int = 5
+    hub_model_id: str = "djohnston5/gemma-2-2b-sft"
     
     
 def init(args: Args):
     args.model = get_base_model(args)
     args.tokenizer = get_tokenizer(args)
-    args.train, args.test = get_train_test_datasets(args)
-    args.validation = get_validation_dataset(args)
+    args.train, args.test, args.validation = get_train_test_datasets(args)
     
     
     args.config = SFTConfig(
@@ -50,21 +49,24 @@ def init(args: Args):
         per_device_train_batch_size=args.batch_size,
         learning_rate=args.learning_rate,
         logging_steps=args.logging_steps,
-        save_steps=args.save_steps,
+        save_strategy="no",
         eval_strategy="steps",
         eval_steps=args.eval_steps,
+        push_to_hub=True,
+        hub_model_id=args.hub_model_id,
     )
     args.trainer = SFTTrainer(
         model=args.model,
         train_dataset=args.train,
         eval_dataset=args.validation,
-        config=args.config,
+        args=args.config,
     )
     
     return args
 
 def train(args: Args):
     args.trainer.train()
+    args.trainer.push_to_hub()
     
 
 def main():
