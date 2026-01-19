@@ -30,6 +30,7 @@ dependencies = [
     "tqdm>=4.67.1",
     "transformers>=4.57.3",
     "trl>=0.26.2",
+    "wandb>=0.18.0",
 ]
 
 [tool.uv.sources]
