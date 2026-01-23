@@ -1,0 +1,42 @@
+[
+    {
+        "instruction": "Explain the concept of recursion in programming.",
+        "input": ""
+    },
+    {
+        "instruction": "Write a haiku about machine learning.",
+        "input": ""
+    },
+    {
+        "instruction": "Summarize the following text in one sentence.",
+        "input": "The mitochondria are membrane-bound organelles found in the cytoplasm of eukaryotic cells. They are often referred to as the powerhouses of the cell because they generate most of the cell's supply of adenosine triphosphate (ATP), which is used as a source of chemical energy."
+    },
+    {
+        "instruction": "Convert the following temperature from Celsius to Fahrenheit and explain the formula.",
+        "input": "25 degrees Celsius"
+    },
+    {
+        "instruction": "List three benefits of regular exercise.",
+        "input": ""
+    },
+    {
+        "instruction": "Correct the grammar in the following sentence.",
+        "input": "Me and him went to the store yesterday and buyed some apples."
+    },
+    {
+        "instruction": "Explain the difference between a list and a tuple in Python.",
+        "input": ""
+    },
+    {
+        "instruction": "Write a short product description for the following item.",
+        "input": "A wireless Bluetooth speaker with 20-hour battery life and waterproof design."
+    },
+    {
+        "instruction": "What are the primary colors and why are they called primary?",
+        "input": ""
+    },
+    {
+        "instruction": "Translate the following English phrase to French.",
+        "input": "The weather is beautiful today."
+    }
+]
