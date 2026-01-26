@@ -27,9 +27,5 @@ def format_data(args: "Args", example: dict) -> dict:
 def get_train_test_datasets(args: "Args") -> tuple[Dataset, Dataset]:
     dataset = load_dataset(args.dataset_name)
     dataset = dataset.map(lambda ex: format_data(args, ex), remove_columns=dataset["train"].column_names)
-    split_dataset = dataset["train"].train_test_split(test_size=0.1)
-    test_dataset = split_dataset["test"].train_test_split(test_size=0.1)
-    return split_dataset["train"], test_dataset["train"], test_dataset["test"]
-
-def get_validation_dataset(args: "Args") -> Dataset:
-    return None
+    split_dataset = dataset["train"].train_test_split(test_size=0.01)
+    return split_dataset["train"], split_dataset["test"]
