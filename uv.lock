@@ -1136,6 +1136,7 @@ dependencies = [
     { name = "pandas-flavor" },
     { name = "polars" },
     { name = "pyjanitor" },
+    { name = "pyngrok" },
     { name = "pyyaml" },
     { name = "requests" },
     { name = "rich" },
@@ -1168,6 +1169,7 @@ requires-dist = [
     { name = "pandas-flavor", specifier = ">=0.8.1" },
     { name = "polars", specifier = ">=1.37.0" },
     { name = "pyjanitor", specifier = ">=0.32.8" },
+    { name = "pyngrok", specifier = ">=7.5.0" },
     { name = "pyyaml", specifier = ">=6.0.3" },
     { name = "requests", specifier = ">=2.32.5" },
     { name = "rich", specifier = ">=14.2.0" },
@@ -3183,6 +3185,18 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/3d/af/2df5468a7db503d51a578648f238045e9b30c70ec276ee743c0335037a60/pyjanitor-0.32.8.tar.gz", hash = "sha256:f97190242a17c280c91123b2a3f391081cb522a7ba00d0ff6ddf5505570cfbe3", size = 238631, upload-time = "2026-01-02T00:03:59.163Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/e5/cd/15010782e2f14c0263ce181e8a12aebf51820d066bb50612280d12866acd/pyjanitor-0.32.8-py3-none-any.whl", hash = "sha256:3ca7a6468541b8a1ab1c82a7c3ab2f67b92002340bd9bac75824102e257c0fc1", size = 235785, upload-time = "2026-01-02T00:03:57.784Z" },
+]
+
+[[package]]
+name = "pyngrok"
+version = "7.5.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "pyyaml" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/f6/7c/788a44567ffbad7c2d838e79a388ae5045520410f953c5097ad664d4763d/pyngrok-7.5.0.tar.gz", hash = "sha256:2fe91cba2c2531ecfb124b5071f377808b61a68a14ca3c99fcb7f3fdae05278f", size = 43149, upload-time = "2025-11-17T17:36:50.463Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/bf/60/ab93dfb5721ba65f36bb6c2e07adfa21a8ac6525760b60f2ad6d31f7d098/pyngrok-7.5.0-py3-none-any.whl", hash = "sha256:1e50e71a59f1086f59e12e3d186f07ae2cbdccaf6f523678ef7ce3a180aba5c4", size = 24785, upload-time = "2025-11-17T17:36:49.372Z" },
 ]
 
 [[package]]
