@@ -16,7 +16,7 @@ DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 class Args(Hypers):
     base_model: str = "google/gemma-2-2b"
     finetuned_model: str = "djohnston5/gemma-2-2b-sft_crisp-armadillo-20"
-    local_model_path: str | None = None
+    local_model_path: str = ""
     prompts_path: str = "data/prompts/comparison_queries.json"
     output_dir: str = "data/outputs"
     force: bool = False

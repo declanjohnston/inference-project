@@ -11,12 +11,12 @@ CUDA_CLEANUP_CMD = "python -c \"import torch; torch.cuda.empty_cache(); torch.cu
 DELAY_BETWEEN_RUNS = 5  # seconds
 
 HYPERPARAMETER_GRID = {
-    "learning_rate": [1e-5, 5e-6],
+    "learning_rate": [5e-6],
     "batch_size": [4],
-    "max_steps": [15000],
-    "weight_decay": [0.0, 0.01],  # off, on
+    "max_steps": [12000],
+    "weight_decay": [0.0],  # off, on
     "gradient_accumulation_steps": [1],  # off (1), on (4)
-    "max_grad_norm": [0.0, 1.0],  # off (0), on (1.0)
+    "max_grad_norm": [1.0],  # off (0), on (1.0)
 }
 
 
