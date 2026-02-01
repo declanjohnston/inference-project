@@ -29,15 +29,15 @@ class Args(Hypers):
     config: SFTConfig = TBD()
     
     # Hyperparameters
-    learning_rate: float = 1e-5
+    learning_rate: float = 5e-6
     batch_size: int = 4
     gradient_accumulation_steps: int = 1  # 1 = off (no accumulation)
     weight_decay: float = 0.0  # 0 = off
-    max_grad_norm: float = 0.0  # 0 = off (no gradient clipping)
+    max_grad_norm: float = 1.0  # gradient clipping
     max_seq_length: int = 1024
     max_length: int = 1024
     output_dir: str = "./sft_output"
-    max_steps: int = 10000
+    max_steps: int = 12000
     logging_steps: int = 10
     eval_steps: int = 500
     
