@@ -1,5 +1,9 @@
-from datasets import Dataset, load_dataset
+#!/usr/bin/env python3
+"""Dataset loading and formatting utilities for Alpaca-style instruction tuning."""
 from typing import TYPE_CHECKING
+
+from datasets import Dataset, load_dataset
+
 if TYPE_CHECKING:
     from main import Args
 
@@ -25,6 +29,7 @@ def format_data(args: "Args", example: dict) -> dict:
     return {"prompt": parts[0] + args.split_marker, "completion": parts[1]}
 
 def get_train_test_datasets(args: "Args") -> tuple[Dataset, Dataset]:
+    """Load and split the dataset into train/test sets with prompt/completion formatting."""
     dataset = load_dataset(args.dataset_name)
     dataset = dataset.map(lambda ex: format_data(args, ex), remove_columns=dataset["train"].column_names)
     split_dataset = dataset["train"].train_test_split(test_size=0.01)

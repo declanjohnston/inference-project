@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 import torch
-from mlh.hypers import Hypers, TBD
+from mlh.hypers import Hypers
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
@@ -17,20 +17,18 @@ class Args(Hypers):
     base_model: str = "google/gemma-2-2b"
     finetuned_model: str = "djohnston5/gemma-2-2b-sft_crisp-armadillo-20"
     local_model_path: str = ""
-    prompts_path: str = "data/prompts/comparison_queries.json"
-    output_dir: str = "data/outputs"
+    prompts_path: str | Path = "data/prompts/comparison_queries.json"
+    output_dir: str | Path = "data/outputs"
     force: bool = False
     max_new_tokens: int = 256
     temperature: float = 0.7
 
-    prompts_path_: Path = TBD()
-    output_dir_: Path = TBD()
 
 def init(args: Args) -> Args:
     """Initialize path objects from string paths."""
-    args.prompts_path_ = Path(args.prompts_path)
+    args.prompts_path = Path(args.prompts_path)
     model_name = args.local_model_path or args.finetuned_model
-    args.output_dir_ = Path(args.output_dir) / model_name.split("/")[-1]
+    args.output_dir = Path(args.output_dir) / model_name.split("/")[-1]
     return args
 
 
@@ -40,8 +38,7 @@ def load_model(model_name_or_path: str) -> tuple[AutoModelForCausalLM, AutoToken
     model = AutoModelForCausalLM.from_pretrained(
         model_name_or_path,
         dtype=torch.bfloat16,
-        device_map="auto",
-    )
+    ).to(DEVICE)
     tokenizer = AutoTokenizer.from_pretrained(model_name_or_path)
     return model, tokenizer
 
@@ -141,12 +138,12 @@ def save_outputs(outputs: list[dict], output_path: Path) -> None:
 
 def run_inference(args: Args) -> None:
     """Run inference pipeline for base and fine-tuned models."""
-    queries = json.loads(args.prompts_path_.read_text())
-    print(f"Loaded {len(queries)} queries from {args.prompts_path_}")
+    queries = json.loads(args.prompts_path.read_text())
+    print(f"Loaded {len(queries)} queries from {args.prompts_path}")
 
-    args.output_dir_.mkdir(parents=True, exist_ok=True)
-    base_output_path = args.output_dir_ / "base_responses.json"
-    finetuned_output_path = args.output_dir_ / "finetuned_responses.json"
+    args.output_dir.mkdir(parents=True, exist_ok=True)
+    base_output_path = args.output_dir / "base_responses.json"
+    finetuned_output_path = args.output_dir / "finetuned_responses.json"
 
     # Base model inference
     if not args.force and (cached := load_cached_outputs(base_output_path)):

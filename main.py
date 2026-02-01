@@ -1,12 +1,17 @@
+#!/usr/bin/env python3
+"""Training script for fine-tuning Gemma-2-2B on the Alpaca dataset using SFTTrainer."""
+from dataclasses import dataclass
+from pathlib import Path
+
+import wandb
+from datasets import Dataset
 from mlh.hypers import Hypers, TBD
 from transformers import AutoTokenizer, AutoModelForCausalLM
-from src.model import get_base_model, get_tokenizer
-from dataclasses import dataclass, asdict
 from trl import SFTTrainer, SFTConfig
-from datasets import Dataset
-from src.dataloaders import get_train_test_datasets
-import wandb
-from pathlib import Path
+
+from dataloaders import get_train_test_datasets
+
+
 @dataclass
 class Args(Hypers):
     
@@ -35,22 +40,22 @@ class Args(Hypers):
     weight_decay: float = 0.0  # 0 = off
     max_grad_norm: float = 1.0  # gradient clipping
     max_seq_length: int = 1024
-    max_length: int = 1024
     output_dir: str = "./sft_output"
     max_steps: int = 12000
     logging_steps: int = 10
     eval_steps: int = 500
     
     
-def init(args: Args):
+def init(args: Args) -> Args:
+    """Initialize wandb, load model/tokenizer/data, and configure the trainer."""
     wandb.init(
         entity="declanjohnston5-declan-johnston",
         project=args.project_name,
         config=args.to_dict(),
     )
     
-    args.model = get_base_model(args)
-    args.tokenizer = get_tokenizer(args)
+    args.model = AutoModelForCausalLM.from_pretrained(args.model_name)
+    args.tokenizer = AutoTokenizer.from_pretrained(args.model_name)
     args.train, args.test = get_train_test_datasets(args)
     
     
@@ -80,7 +85,8 @@ def init(args: Args):
     
     return args
 
-def train(args: Args):
+def train(args: Args) -> None:
+    """Run training and save model weights locally or to HuggingFace Hub."""
     args.trainer.train()
     if args.save_model_weights:
         args.trainer.push_to_hub()
