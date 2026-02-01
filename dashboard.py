@@ -42,7 +42,7 @@ def main():
 
     if not models:
         st.error("No model outputs found. Run `python run_inference.py` first.")
-        return
+        st.stop()
 
     selected_model = st.sidebar.selectbox(
         "Select Fine-tuned Model",
@@ -55,7 +55,7 @@ def main():
 
     if data is None:
         st.error(f"Could not load responses for {selected_model}")
-        return
+        st.stop()
 
     base_responses, finetuned_responses = data
 
